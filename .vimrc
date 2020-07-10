@@ -50,7 +50,8 @@ autocmd FileType yml setlocal ts=2 sw=2 expandtab
 " Mappings
 imap <C-f> <C-x><C-o>
 nmap <F8> :TagbarToggle<CR>
-nmap <F12> :set tabstop=4 shiftwidth=4 expandtab<CR>:retab<CR>:w<CR>
+nmap <F12> :set tabstop=2 shiftwidth=2 expandtab<CR>:retab<CR>:w<CR>
+set cc=80
 
 " neocomplcache
 let g:neocomplcache_enable_at_startup = 1
@@ -121,8 +122,8 @@ set clipboard=unnamed
 
 " Set tabs to 4 spaces
 filetype plugin indent on
-set tabstop=4
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=2
 set expandtab
 
 " Monokai
