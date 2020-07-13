@@ -122,9 +122,45 @@ set clipboard=unnamed
 
 " Set tabs to 4 spaces
 filetype plugin indent on
+set softtabstop=2
 set tabstop=2
 set shiftwidth=2
 set expandtab
+
+filetype on
+set cinoptions=:0,g0,(0,Ws,l1
+set smarttab
+autocmd FileType make set noexpandtab
+augroup filetype
+  au! BufRead,BufNewFile *.ll     set filetype=llvm
+augroup END
+
+" Enable syntax highlighting for tablegen files. To use, copy
+" utils/vim/syntax/tablegen.vim to ~/.vim/syntax .
+augroup filetype
+  au! BufRead,BufNewFile *.td     set filetype=tablegen
+augroup END
+
+
+" Line highlighting
+highlight LongLine ctermbg=DarkYellow guibg=DarkYellow
+highlight WhitespaceEOL ctermbg=DarkYellow guibg=DarkYellow
+if v:version >= 702
+  " Lines longer than 80 columns.
+  au BufWinEnter * let w:m0=matchadd('LongLine', '\%>80v.\+', -1)
+
+  " Whitespace at the end of a line. This little dance suppresses
+  " whitespace that has just been typed.
+  au BufWinEnter * let w:m1=matchadd('WhitespaceEOL', '\s\+$', -1)
+  au InsertEnter * call matchdelete(w:m1)
+  au InsertEnter * let w:m2=matchadd('WhitespaceEOL', '\s\+\%#\@<!$', -1)
+  au InsertLeave * call matchdelete(w:m2)
+  au InsertLeave * let w:m1=matchadd('WhitespaceEOL', '\s\+$', -1)
+else
+  au BufRead,BufNewFile * syntax match LongLine /\%>80v.\+/
+  au InsertEnter * syntax match WhitespaceEOL /\s\+\%#\@<!$/
+  au InsertLeave * syntax match WhitespaceEOL /\s\+$/
+endif
 
 " Monokai
 syntax on
